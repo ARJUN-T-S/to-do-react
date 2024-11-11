@@ -5,38 +5,43 @@ import Footer from './Footer';
 import Nextmain from './Nextmain';
 
 function App() {
-  const [style,setStyle]=useState('hidden');
-  const [style2,setStyle2]=useState('flex flex-wrap justify-center items-center')
-  // Initialize state with localStorage values or default values
+  const [style, setStyle] = useState('hidden');
+  const [style2, setStyle2] = useState('flex flex-wrap justify-center items-center');
+  
   const [count, setCount] = useState(() => {
-    // Check if count exists in localStorage
     const storedCount = localStorage.getItem('count');
     return storedCount ? JSON.parse(storedCount) : 1;
   });
 
   const [arr, setArray] = useState(() => {
-    // Check if arr exists in localStorage
     const storedArr = localStorage.getItem('arr');
     return storedArr ? JSON.parse(storedArr) : [];
   });
 
   const [text, setText] = useState('');
 
-  // Save data to localStorage when arr or count changes
-  const isnewDay=()=>{
-    const today =new Date().toISOString().split('T')[0];
-    const currentday=localStorage.getItem('date');
-    if(today!==currentday){
-      localStorage.setItem('date',today);
+  const isNewDay = () => {
+    const today = new Date().toISOString().split('T')[0];
+    const currentDay = localStorage.getItem('date');
+    const isFirstVisit = localStorage.getItem('firstVisit'); // Check if it's the first visit
+
+    if (!isFirstVisit) {
+      // If it's the first visit, skip the day check and set firstVisit flag
+      localStorage.setItem('firstVisit', 'true');
+      return false; // Skip the new day check for the first visit
+    }
+
+    if (today !== currentDay) {
+      localStorage.setItem('date', today);
       localStorage.removeItem('arr');
       localStorage.removeItem('count');
       return true;
     }
     return false;
+  };
 
-  }
   useEffect(() => {
-    if(isnewDay()){
+    if (isNewDay()) {
       setStyle('flex flex-wrap justify-center items-center');
       setStyle2('hidden');
     }
@@ -69,20 +74,21 @@ function App() {
     const updatedList = arr.filter((work) => work.id !== id);
     setArray(updatedList);
   };
-  const handleYes =()=>{
-    
-     const temp=arr.filter((item)=>item.checkbox===false);
-     setArray(temp);
-     setStyle2('flex flex-wrap justify-center items-center');
-      setStyle('hidden');
-  }
-  const handleNo =()=>{
-    
-     const temp=[];
-     setArray(temp);
-     setStyle2('flex flex-wrap justify-center items-center');
-      setStyle('hidden');
-  }
+
+  const handleYes = () => {
+    const temp = arr.filter((item) => item.checkbox === false);
+    setArray(temp);
+    setStyle2('flex flex-wrap justify-center items-center');
+    setStyle('hidden');
+  };
+
+  const handleNo = () => {
+    const temp = [];
+    setArray(temp);
+    setStyle2('flex flex-wrap justify-center items-center');
+    setStyle('hidden');
+  };
+
   return (
     <div className="App">
       <Header />
