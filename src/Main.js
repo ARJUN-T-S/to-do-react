@@ -12,7 +12,7 @@ const Main = ({ text, handleText, handleWork,style,style2,handleYes,handleNo }) 
           <button className="text-black bg-white w-16 font-bold rounded-full p-2" onClick={handleWork}>ADD</button>
         </form>
       </div>
-      <div className={`${style} w-1/2 h-[200px] bg-black prompttt rounded-2xl text-center `}>
+      <div className={`${style} w-1/2 min-h-[200px] bg-black prompttt rounded-2xl text-center `}>
       <h1 className='text-white text-4xl font-bold'>Do you want to add the pending tasks to your list</h1>
       <button className="text-black bg-white ml-4 rounded-xl w-16 p-2 font-bold" onClick={handleYes}>YES</button>
       <button className="text-black bg-white ml-4 rounded-xl w-16 p-2 font-bold" onClick={handleNo}>NO</button>
